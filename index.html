@@ -1,0 +1,865 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>الفضاءات المتجهية — ملخص شامل</title>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;900&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:       #f5f0e8;
+  --bg2:      #ede8df;
+  --bg3:      #e4ddd2;
+  --paper:    #faf7f2;
+  --ink:      #2c2416;
+  --ink2:     #5a4f3e;
+  --ink3:     #9a8f7e;
+  --ink4:     #c4b8a8;
+  --red:      #c0392b;
+  --blue:     #1a5276;
+  --green:    #1e6b45;
+  --orange:   #d35400;
+  --purple:   #6c3483;
+  --red-bg:   #fdf0ee;
+  --blue-bg:  #eaf0f8;
+  --green-bg: #eaf5ef;
+  --orange-bg:#fdf3e7;
+  --purple-bg:#f5eef8;
+  --shadow:   0 2px 12px rgba(44,36,22,0.08);
+  --shadow2:  0 4px 24px rgba(44,36,22,0.12);
+  --radius:   14px;
+  --radius-sm:8px;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+
+body {
+  font-family: 'Tajawal', sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+  min-height: 100vh;
+  line-height: 1.7;
+}
+
+/* Subtle paper texture */
+body::before {
+  content:'';
+  position:fixed; inset:0;
+  background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23c4b8a8' fill-opacity='0.15'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  pointer-events:none; z-index:0;
+}
+
+.container {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 48px 24px 80px;
+  position: relative; z-index:1;
+}
+
+/* ── Header ── */
+.header {
+  text-align: center;
+  margin-bottom: 56px;
+}
+.header-tag {
+  display: inline-block;
+  background: var(--ink);
+  color: var(--bg);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  padding: 5px 18px;
+  border-radius: 99px;
+  margin-bottom: 20px;
+}
+.header h1 {
+  font-size: clamp(26px, 5vw, 44px);
+  font-weight: 900;
+  color: var(--ink);
+  margin-bottom: 8px;
+  letter-spacing: -0.5px;
+}
+.header h1 span { color: var(--red); }
+.header p {
+  color: var(--ink3);
+  font-size: 15px;
+  font-weight: 300;
+}
+.header-divider {
+  display: flex; align-items: center; gap: 16px;
+  margin: 24px auto 0; max-width: 300px;
+}
+.header-divider::before,
+.header-divider::after {
+  content:''; flex:1; height:1px; background:var(--ink4);
+}
+.header-divider span { color:var(--ink4); font-size:18px; }
+
+/* ── Nav pills ── */
+.nav {
+  display: flex; flex-wrap: wrap; gap: 8px;
+  justify-content: center;
+  margin-bottom: 48px;
+}
+.nav a {
+  text-decoration: none;
+  background: var(--paper);
+  border: 1px solid var(--ink4);
+  color: var(--ink2);
+  font-size: 13px;
+  font-weight: 500;
+  padding: 6px 14px;
+  border-radius: 99px;
+  transition: all .2s;
+  box-shadow: var(--shadow);
+}
+.nav a:hover {
+  background: var(--ink);
+  color: var(--bg);
+  border-color: var(--ink);
+}
+
+/* ── Section ── */
+.section { margin-bottom: 40px; }
+
+.section-header {
+  display: flex; align-items: center; gap: 14px;
+  margin-bottom: 20px;
+  padding-bottom: 12px;
+  border-bottom: 2px solid var(--bg3);
+}
+.sec-num {
+  width: 36px; height: 36px;
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 14px; font-weight: 800;
+  flex-shrink: 0;
+}
+.sec-title { flex: 1; }
+.sec-title h2 { font-size: 20px; font-weight: 800; color: var(--ink); }
+.sec-title .fr { font-size: 13px; color: var(--ink3); font-weight: 300; font-family: 'Fira Code', monospace; }
+
+/* ── Card ── */
+.card {
+  background: var(--paper);
+  border-radius: var(--radius);
+  border: 1px solid var(--ink4);
+  padding: 22px 24px;
+  margin-bottom: 14px;
+  box-shadow: var(--shadow);
+  position: relative;
+  overflow: hidden;
+  transition: box-shadow .2s, transform .2s;
+}
+.card:hover { box-shadow: var(--shadow2); transform: translateY(-1px); }
+
+.card.accent-red   { border-right: 4px solid var(--red);    background: var(--red-bg); }
+.card.accent-blue  { border-right: 4px solid var(--blue);   background: var(--blue-bg); }
+.card.accent-green { border-right: 4px solid var(--green);  background: var(--green-bg); }
+.card.accent-orange{ border-right: 4px solid var(--orange); background: var(--orange-bg); }
+.card.accent-purple{ border-right: 4px solid var(--purple); background: var(--purple-bg); }
+
+.card-label {
+  font-size: 11px; font-weight: 700; letter-spacing: 2px;
+  text-transform: uppercase; margin-bottom: 6px;
+}
+.card.accent-red    .card-label { color: var(--red); }
+.card.accent-blue   .card-label { color: var(--blue); }
+.card.accent-green  .card-label { color: var(--green); }
+.card.accent-orange .card-label { color: var(--orange); }
+.card.accent-purple .card-label { color: var(--purple); }
+
+.card p { font-size: 15px; color: var(--ink2); margin-bottom: 10px; }
+.card p:last-child { margin-bottom: 0; }
+
+/* ── Formula ── */
+.formula {
+  background: var(--bg2);
+  border: 1px solid var(--bg3);
+  border-radius: var(--radius-sm);
+  padding: 12px 18px;
+  margin: 12px 0;
+  font-family: 'Fira Code', monospace;
+  font-size: 15px;
+  color: var(--ink);
+  text-align: center;
+  direction: ltr;
+  letter-spacing: 0.5px;
+}
+
+/* ── Steps ── */
+.steps { display: flex; flex-direction: column; gap: 8px; margin: 12px 0; }
+.step {
+  display: flex; align-items: flex-start; gap: 12px;
+  background: rgba(255,255,255,0.6);
+  border-radius: var(--radius-sm);
+  padding: 11px 14px;
+  border: 1px solid rgba(44,36,22,0.08);
+}
+.step-n {
+  width: 22px; height: 22px; border-radius: 6px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px; font-weight: 800; flex-shrink: 0; margin-top: 2px;
+}
+.step p { margin: 0; font-size: 14px; color: var(--ink2); }
+
+/* ── Table ── */
+.tbl-wrap {
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--bg3);
+  overflow: hidden;
+  margin: 12px 0;
+}
+table { width: 100%; border-collapse: collapse; font-size: 14px; }
+th {
+  background: var(--bg2);
+  color: var(--ink2); font-weight: 700;
+  padding: 10px 14px; text-align: right;
+  font-size: 12px; letter-spacing: 0.5px;
+}
+td {
+  padding: 10px 14px; color: var(--ink2);
+  border-top: 1px solid var(--bg3);
+  vertical-align: middle;
+}
+tr:hover td { background: rgba(255,255,255,0.5); }
+.td-yes { color: var(--green); font-weight: 700; }
+.td-no  { color: var(--red);   font-weight: 700; }
+.mono   { font-family: 'Fira Code', monospace; font-size: 12px; direction: ltr; color: var(--blue); }
+
+/* ── Flow ── */
+.flow {
+  display: flex; align-items: center; justify-content: center;
+  flex-wrap: wrap; gap: 6px;
+  background: var(--bg2);
+  border-radius: var(--radius);
+  border: 1px solid var(--bg3);
+  padding: 20px 16px;
+  margin: 12px 0;
+}
+.fbox {
+  background: var(--paper);
+  border: 1px solid var(--ink4);
+  border-radius: 10px;
+  padding: 10px 16px;
+  text-align: center;
+  box-shadow: var(--shadow);
+}
+.fbox .ft { font-size: 13px; font-weight: 700; color: var(--ink); }
+.fbox .fs { font-size: 11px; color: var(--ink3); margin-top: 2px; }
+.farr { color: var(--ink4); font-size: 18px; padding: 0 2px; flex-shrink: 0; }
+
+/* ── Key rule ── */
+.key-rule {
+  background: var(--ink);
+  color: var(--bg);
+  border-radius: var(--radius-sm);
+  padding: 14px 18px;
+  margin: 14px 0;
+  font-size: 14px;
+  line-height: 1.7;
+}
+.key-rule strong { color: #f5c842; }
+
+/* ── Grid 2 ── */
+.grid2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px; margin: 12px 0;
+}
+@media(max-width:560px){ .grid2{ grid-template-columns:1fr; } .flow{ gap:10px; } .farr{ display:none; } }
+
+.mini {
+  background: rgba(255,255,255,0.7);
+  border: 1px solid var(--bg3);
+  border-radius: var(--radius-sm);
+  padding: 14px;
+}
+.mini .mt { font-size: 13px; font-weight: 700; color: var(--ink); margin-bottom: 6px; }
+.mini p  { font-size: 13px; color: var(--ink2); margin: 0; }
+
+/* ── Divider ── */
+.divider {
+  border: none; border-top: 1px dashed var(--ink4);
+  margin: 40px 0;
+}
+
+/* ── Quick ref ── */
+.quick-ref {
+  background: var(--ink);
+  border-radius: var(--radius);
+  padding: 28px;
+  margin-top: 40px;
+  color: var(--bg);
+}
+.quick-ref h3 {
+  font-size: 18px; font-weight: 800;
+  color: #f5c842;
+  margin-bottom: 18px;
+  text-align: center;
+  letter-spacing: 1px;
+}
+.qr-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+@media(max-width:560px){ .qr-grid{ grid-template-columns:1fr; } }
+.qr-item {
+  background: rgba(255,255,255,0.07);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: var(--radius-sm);
+  padding: 14px 16px;
+}
+.qr-item .qi-q {
+  font-size: 13px; font-weight: 700;
+  color: #f5c842; margin-bottom: 6px;
+}
+.qr-item .qi-a {
+  font-size: 13px; color: rgba(245,240,232,0.8);
+  line-height: 1.6;
+}
+.qr-item .qi-a .mono { color: #7ec8e3; font-size: 12px; }
+
+/* ── Footer ── */
+.footer {
+  text-align: center; margin-top: 56px;
+  color: var(--ink4); font-size: 13px;
+  padding-top: 24px;
+  border-top: 1px solid var(--bg3);
+}
+
+/* ── Animations ── */
+@keyframes fadeUp {
+  from { opacity:0; transform:translateY(16px); }
+  to   { opacity:1; transform:translateY(0); }
+}
+.section { animation: fadeUp .5s ease both; }
+.section:nth-child(1){ animation-delay:.05s }
+.section:nth-child(2){ animation-delay:.10s }
+.section:nth-child(3){ animation-delay:.15s }
+.section:nth-child(4){ animation-delay:.20s }
+.section:nth-child(5){ animation-delay:.25s }
+.section:nth-child(6){ animation-delay:.30s }
+.section:nth-child(7){ animation-delay:.35s }
+.section:nth-child(8){ animation-delay:.40s }
+</style>
+</head>
+<body>
+<div class="container">
+
+<!-- Header -->
+<div class="header">
+  <div class="header-tag">Algèbre 2 · جامعة باتنة 2 · هندسة ميكانيك</div>
+  <h1>الفضاءات <span>المتجهية</span></h1>
+  <p>ملخص شامل ومبسّط لكل ما درسناه</p>
+  <div class="header-divider"><span>✦</span></div>
+</div>
+
+<!-- Nav -->
+<nav class="nav">
+  <a href="#ev">Espace Vectoriel</a>
+  <a href="#cl">Combinaison Linéaire</a>
+  <a href="#ll">Libre / Liée</a>
+  <a href="#gen">Génératrice</a>
+  <a href="#base">Base + Dim</a>
+  <a href="#sev">Sous-espace</a>
+  <a href="#inter">Intersection</a>
+  <a href="#supp">Supplémentaire</a>
+</nav>
+
+<!-- 1. Espace Vectoriel -->
+<div class="section" id="ev">
+  <div class="section-header">
+    <div class="sec-num" style="background:#fdf0ee;color:var(--red);">1</div>
+    <div class="sec-title">
+      <h2>Espace Vectoriel</h2>
+      <div class="fr">الفضاء المتجهي</div>
+    </div>
+  </div>
+
+  <div class="card accent-red">
+    <div class="card-label">التعريف</div>
+    <p>مجموعة <strong>E</strong> مزودة بعمليتين تحققان 8 بديهيات: <strong>الجمع</strong> بين المتجهات و<strong>الضرب</strong> بعدد حقيقي.</p>
+    <div class="grid2">
+      <div class="mini">
+        <div class="mt">بديهيات الجمع</div>
+        <p>إغلاق · تبادلية · تجميعية · محايد <span class="mono">0</span> · معاكس <span class="mono">−u</span></p>
+      </div>
+      <div class="mini">
+        <div class="mt">بديهيات الضرب</div>
+        <p>توزيعية · تجميعية · محايد <span class="mono">1·u = u</span></p>
+      </div>
+    </div>
+    <div class="tbl-wrap" style="margin-top:12px">
+      <table>
+        <tr><th>الفضاء</th><th>dim</th></tr>
+        <tr><td>ℝⁿ</td><td class="td-yes">n</td></tr>
+        <tr><td>ℝₙ[X] — كثيرات الحدود من درجة ≤ n</td><td class="td-yes">n+1</td></tr>
+        <tr><td>𝓜ₙₓₚ(ℝ) — المصفوفات</td><td class="td-yes">n×p</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="card accent-red">
+    <div class="card-label">📝 مثال — هل ℕ فضاء متجهي على ℝ؟</div>
+    <p>نتحقق من الإغلاق بالنسبة للضرب بعددية:</p>
+    <div class="formula">خذ  n = 3 ∈ ℕ  و  λ = −1 ∈ ℝ<br>λ · n = −1 × 3 = −3 ∉ ℕ</div>
+    <div class="steps">
+      <div class="step">
+        <div class="step-n" style="background:var(--red-bg);color:var(--red);">✗</div>
+        <p>الإغلاق لا يتحقق ← <strong>ℕ ليس فضاءً متجهياً</strong> على ℝ</p>
+      </div>
+      <div class="step">
+        <div class="step-n" style="background:var(--green-bg);color:var(--green);">✓</div>
+        <p>أما ℝ² مثلاً: (2,3) + (1,−1) = (3,2) ∈ ℝ² و 5·(2,3) = (10,15) ∈ ℝ² ← <strong>فضاء متجهي</strong></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- 2. Combinaison Linéaire -->
+<div class="section" id="cl">
+  <div class="section-header">
+    <div class="sec-num" style="background:#eaf0f8;color:var(--blue);">2</div>
+    <div class="sec-title">
+      <h2>Combinaison Linéaire</h2>
+      <div class="fr">التركيب الخطي</div>
+    </div>
+  </div>
+
+  <div class="card accent-blue">
+    <div class="card-label">التعريف</div>
+    <p>أي تعبير من الشكل:</p>
+    <div class="formula">u = λ₁v₁ + λ₂v₂ + ··· + λₙvₙ</div>
+    <div class="steps">
+      <div class="step">
+        <div class="step-n" style="background:var(--green-bg);color:var(--green);">✓</div>
+        <p><strong>هو تركيب خطي:</strong> حللت النظام ووجدت قيم λᵢ بدون تناقض</p>
+      </div>
+      <div class="step">
+        <div class="step-n" style="background:var(--red-bg);color:var(--red);">✗</div>
+        <p><strong>ليس تركيباً خطياً:</strong> ظهر تناقض في الحساب مثل 0 = 5</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="card accent-blue">
+    <div class="card-label">📝 مثال — هل u = (3, 1, 2) تركيب خطي من v₁=(1,0,1) و v₂=(0,1,0)؟</div>
+    <p>نحل: λ₁(1,0,1) + λ₂(0,1,0) = (3,1,2)</p>
+    <div class="formula">λ₁ = 3  |  λ₂ = 1  |  λ₁ = 2  ← تناقض! (3 ≠ 2)</div>
+    <div class="steps">
+      <div class="step">
+        <div class="step-n" style="background:var(--red-bg);color:var(--red);">✗</div>
+        <p>المعادلة الثالثة تعطي λ₁=2 لكن الأولى تعطي λ₁=3 ← <strong>ليس تركيباً خطياً</strong></p>
+      </div>
+    </div>
+    <p style="margin-top:10px">أما u = (3, 1, 3)؟ &nbsp;← λ₁=3, λ₂=1, و المعادلة الثالثة: λ₁=3 ✓ &nbsp;← <strong style="color:var(--green)">هو تركيب خطي!</strong></p>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- 3. Libre / Liée -->
+<div class="section" id="ll">
+  <div class="section-header">
+    <div class="sec-num" style="background:#eaf5ef;color:var(--green);">3</div>
+    <div class="sec-title">
+      <h2>Famille Libre / Liée</h2>
+      <div class="fr">مجموعة حرة / تابعة</div>
+    </div>
+  </div>
+
+  <div class="card accent-green">
+    <div class="card-label">طريقة الحل</div>
+    <p>حل المعادلة التالية وانظر في النتيجة:</p>
+    <div class="formula">λ₁v₁ + λ₂v₂ + ··· + λₙvₙ = 0</div>
+    <div class="tbl-wrap">
+      <table>
+        <tr><th>النتيجة</th><th>الحكم</th><th>المعنى</th></tr>
+        <tr>
+          <td class="mono">λ₁=λ₂=···=0 فقط</td>
+          <td class="td-yes">Libre ✓</td>
+          <td>لا يوجد متجه مبني من الباقين</td>
+        </tr>
+        <tr>
+          <td class="mono">وجد حل غير صفري</td>
+          <td class="td-no">Liée ✗</td>
+          <td>متجه واحد على الأقل = تركيب من الباقين</td>
+        </tr>
+      </table>
+    </div>
+    <div class="key-rule">
+      🔑 إذا عدد المتجهات <strong>أكبر من dim الفضاء</strong> ← المجموعة <strong>تابعة دائماً</strong>
+    </div>
+  </div>
+
+  <div class="card accent-green">
+    <div class="card-label">📝 مثال — هل {v₁=(1,2,1), v₂=(0,1,2), v₃=(2,3,0)} libre في ℝ³؟</div>
+    <p>نحل: λ₁v₁ + λ₂v₂ + λ₃v₃ = (0,0,0)</p>
+    <div class="formula">λ₁ + 2λ₃ = 0<br>2λ₁ + λ₂ + 3λ₃ = 0<br>λ₁ + 2λ₂ = 0</div>
+    <div class="steps">
+      <div class="step">
+        <div class="step-n" style="background:var(--green-bg);color:var(--green);">①</div>
+        <p>من المعادلة (1): λ₁ = −2λ₃ &nbsp;|&nbsp; من (3): λ₂ = −λ₁/2 = λ₃</p>
+      </div>
+      <div class="step">
+        <div class="step-n" style="background:var(--green-bg);color:var(--green);">②</div>
+        <p>نعوّض في (2): 2(−2λ₃) + λ₃ + 3λ₃ = −4λ₃ + 4λ₃ = 0 ← <strong>0 = 0</strong> (مجهول حر!)</p>
+      </div>
+      <div class="step">
+        <div class="step-n" style="background:var(--red-bg);color:var(--red);">✗</div>
+        <p>خذ λ₃=1 ← λ₁=−2, λ₂=1 ← وجد حل غير صفري ← <strong>المجموعة Liée</strong></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- 4. Génératrice -->
+<div class="section" id="gen">
+  <div class="section-header">
+    <div class="sec-num" style="background:var(--orange-bg);color:var(--orange);">4</div>
+    <div class="sec-title">
+      <h2>Famille Génératrice</h2>
+      <div class="fr">مجموعة مولّدة</div>
+    </div>
+  </div>
+
+  <div class="card accent-orange">
+    <div class="card-label">طريقة الحل</div>
+    <p>حل المعادلة لأي متجه عام في الفضاء:</p>
+    <div class="formula">λ₁v₁ + λ₂v₂ + ··· = (x, y, z)</div>
+    <div class="tbl-wrap">
+      <table>
+        <tr><th>النتيجة</th><th>الحكم</th></tr>
+        <tr><td>دائماً توجد قيم λᵢ لأي x,y,z</td><td class="td-yes">Génératrice ✓</td></tr>
+        <tr><td>في حالات لا يوجد حل (تناقض)</td><td class="td-no">Pas Génératrice ✗</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="card accent-orange">
+    <div class="card-label">📝 مثال — هل {v₁=(1,0,1), v₂=(0,1,1), v₃=(1,1,0)} génératrice لـ ℝ³؟</div>
+    <p>نحل: λ₁v₁ + λ₂v₂ + λ₃v₃ = (x, y, z)</p>
+    <div class="formula">λ₁ + λ₃ = x<br>λ₂ + λ₃ = y<br>λ₁ + λ₂ = z</div>
+    <div class="steps">
+      <div class="step">
+        <div class="step-n" style="background:var(--orange-bg);color:var(--orange);">①</div>
+        <p>نجمع المعادلات الثلاث: 2(λ₁+λ₂+λ₃) = x+y+z ← λ₁+λ₂+λ₃ = (x+y+z)/2</p>
+      </div>
+      <div class="step">
+        <div class="step-n" style="background:var(--orange-bg);color:var(--orange);">②</div>
+        <p>λ₁ = (x+y+z)/2 − y &nbsp;|&nbsp; λ₂ = (x+y+z)/2 − x &nbsp;|&nbsp; λ₃ = (x+y+z)/2 − z</p>
+      </div>
+      <div class="step">
+        <div class="step-n" style="background:var(--green-bg);color:var(--green);">✓</div>
+        <p>لأي (x,y,z) نجد λᵢ دائماً ← <strong>المجموعة Génératrice لـ ℝ³</strong></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- 5. Base + Dimension + Cardinal -->
+<div class="section" id="base">
+  <div class="section-header">
+    <div class="sec-num" style="background:var(--purple-bg);color:var(--purple);">5</div>
+    <div class="sec-title">
+      <h2>Base · Dimension · Cardinal</h2>
+      <div class="fr">القاعدة · البُعد · عدد العناصر</div>
+    </div>
+  </div>
+
+  <div class="card accent-purple">
+    <div class="card-label">العلاقة الأساسية</div>
+    <div class="flow">
+      <div class="fbox">
+        <div class="ft" style="color:var(--green)">Libre ✓</div>
+        <div class="fs">لا علاقة بين العناصر</div>
+      </div>
+      <div class="farr">+</div>
+      <div class="fbox">
+        <div class="ft" style="color:var(--orange)">Génératrice ✓</div>
+        <div class="fs">تولّد كل الفضاء</div>
+      </div>
+      <div class="farr">→</div>
+      <div class="fbox">
+        <div class="ft" style="color:var(--purple)">Base 🏆</div>
+        <div class="fs">المجموعة المثالية</div>
+      </div>
+      <div class="farr">→</div>
+      <div class="fbox">
+        <div class="ft" style="color:var(--blue)">dim = Card</div>
+        <div class="fs">عدد عناصر القاعدة</div>
+      </div>
+    </div>
+    <div class="key-rule">
+      🔑 <strong>Base</strong> = أصغر Génératrice ممكنة = أكبر Famille Libre ممكنة<br>
+      🔑 كل متجه في الفضاء يُكتب بشكل <strong>وحيد</strong> في القاعدة
+    </div>
+    <div class="tbl-wrap">
+      <table>
+        <tr><th>الفضاء</th><th>القاعدة الكنونية</th><th>dim</th></tr>
+        <tr><td>ℝ²</td><td class="mono">{(1,0), (0,1)}</td><td class="td-yes">2</td></tr>
+        <tr><td>ℝ³</td><td class="mono">{(1,0,0),(0,1,0),(0,0,1)}</td><td class="td-yes">3</td></tr>
+        <tr><td>ℝₙ[X]</td><td class="mono">{1, X, X², ..., Xⁿ}</td><td class="td-yes">n+1</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="card accent-purple">
+    <div class="card-label">📝 مثال — هل B = {(1,1,0), (0,1,1), (1,0,1)} قاعدة لـ ℝ³؟</div>
+    <p><strong>خطوة 1 — Libre؟</strong> نحل λ₁v₁+λ₂v₂+λ₃v₃ = 0:</p>
+    <div class="formula">λ₁ + λ₃ = 0  |  λ₁ + λ₂ = 0  |  λ₂ + λ₃ = 0</div>
+    <div class="steps">
+      <div class="step">
+        <div class="step-n" style="background:var(--purple-bg);color:var(--purple);">①</div>
+        <p>من (1) و (2): λ₃ = −λ₁ و λ₂ = −λ₁ ← نعوّض في (3): −λ₁ + (−λ₁) = 0 ← λ₁=0</p>
+      </div>
+      <div class="step">
+        <div class="step-n" style="background:var(--green-bg);color:var(--green);">✓</div>
+        <p>λ₁=λ₂=λ₃=0 هو الحل الوحيد ← <strong>Libre ✓</strong></p>
+      </div>
+    </div>
+    <p style="margin-top:10px"><strong>خطوة 2 — Génératrice؟</strong> عندنا 3 متجهات حرة في ℝ³ (dim=3) ← <strong style="color:var(--green)">تلقائياً Génératrice ✓</strong></p>
+    <div class="key-rule" style="margin-top:10px">
+      🏆 Libre ✓ + Génératrice ✓ ← <strong>B هي قاعدة لـ ℝ³</strong> و dim(ℝ³) = 3
+    </div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- 6. Sous-espace -->
+<div class="section" id="sev">
+  <div class="section-header">
+    <div class="sec-num" style="background:var(--red-bg);color:var(--red);">6</div>
+    <div class="sec-title">
+      <h2>Sous-espace Vectoriel</h2>
+      <div class="fr">الفضاء الجزئي</div>
+    </div>
+  </div>
+
+  <div class="card accent-red">
+    <div class="card-label">الشروط الثلاثة</div>
+    <p>F ⊆ E فضاء جزئي إذا تحققت:</p>
+    <div class="steps">
+      <div class="step">
+        <div class="step-n" style="background:var(--red-bg);color:var(--red);">1</div>
+        <p><span class="mono">0 ∈ F</span> — المتجه الصفري موجود في F</p>
+      </div>
+      <div class="step">
+        <div class="step-n" style="background:var(--red-bg);color:var(--red);">2</div>
+        <p><span class="mono">u,v ∈ F ⟹ u+v ∈ F</span> — الجمع يبقى داخل F</p>
+      </div>
+      <div class="step">
+        <div class="step-n" style="background:var(--red-bg);color:var(--red);">3</div>
+        <p><span class="mono">u ∈ F, λ ∈ ℝ ⟹ λu ∈ F</span> — الضرب بعددية يبقى داخل F</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="card accent-blue">
+    <div class="card-label">طريقة Vect — الأسرع والأذكى 🎯</div>
+    <div class="steps">
+      <div class="step">
+        <div class="step-n" style="background:var(--blue-bg);color:var(--blue);">1</div>
+        <p>اكتب المتجه العام بدلالة الشرط</p>
+      </div>
+      <div class="step">
+        <div class="step-n" style="background:var(--blue-bg);color:var(--blue);">2</div>
+        <p>فكّك بدلالة <strong>المتغيرات الحرة فقط</strong></p>
+      </div>
+      <div class="step">
+        <div class="step-n" style="background:var(--blue-bg);color:var(--blue);">3</div>
+        <p>اكتب <span class="mono">F = Vect{v₁, v₂, ...}</span></p>
+      </div>
+      <div class="step">
+        <div class="step-n" style="background:var(--blue-bg);color:var(--blue);">4</div>
+        <p><strong>Base</strong> = المتجهات داخل Vect &nbsp;|&nbsp; <strong>dim</strong> = عدد المتغيرات الحرة</p>
+      </div>
+    </div>
+    <div class="tbl-wrap" style="margin-top:12px">
+      <table>
+        <tr><th>الشرط في ℝ³</th><th>المتغيرات الحرة</th><th>dim</th><th>Base</th></tr>
+        <tr><td class="mono">y = 2x</td><td>x, z</td><td class="td-yes">2</td><td class="mono">{(1,2,0),(0,0,1)}</td></tr>
+        <tr><td class="mono">x+y+z = 0</td><td>y, z</td><td class="td-yes">2</td><td class="mono">{(-1,1,0),(-1,0,1)}</td></tr>
+        <tr><td class="mono">x = 0</td><td>y, z</td><td class="td-yes">2</td><td class="mono">{(0,1,0),(0,0,1)}</td></tr>
+        <tr><td class="mono">x=y و z=0</td><td>x</td><td class="td-yes">1</td><td class="mono">{(1,1,0)}</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="card accent-green">
+    <div class="card-label">📝 مثال — F = {(x,y,z) ∈ ℝ³ : 2x − y + z = 0}</div>
+    <p><strong>خطوة 1:</strong> هل هو sous-espace؟ الشرط يمر بالأصل: 2(0)−0+0=0 ✓</p>
+    <p><strong>خطوة 2:</strong> طريقة Vect — نعبّر عن المتجه العام:</p>
+    <div class="formula">y = 2x + z  ←  (x, 2x+z, z) = x(1,2,0) + z(0,1,1)</div>
+    <div class="steps">
+      <div class="step">
+        <div class="step-n" style="background:var(--green-bg);color:var(--green);">✓</div>
+        <p><strong>F = Vect{(1,2,0), (0,1,1)}</strong></p>
+      </div>
+      <div class="step">
+        <div class="step-n" style="background:var(--green-bg);color:var(--green);">✓</div>
+        <p>المتغيران الحران هما x و z ← <strong>dim(F) = 2</strong> و Base = {(1,2,0), (0,1,1)}</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- 7. Intersection -->
+<div class="section" id="inter">
+  <div class="section-header">
+    <div class="sec-num" style="background:var(--green-bg);color:var(--green);">7</div>
+    <div class="sec-title">
+      <h2>Intersection</h2>
+      <div class="fr">التقاطع F ∩ G</div>
+    </div>
+  </div>
+
+  <div class="card accent-green">
+    <div class="card-label">المفهوم</div>
+    <p>المتجهات الموجودة في <strong>F و G معاً</strong> — وهو دائماً sous-espace.</p>
+    <div class="formula">F ∩ G = { u ∈ E : u ∈ F  و  u ∈ G }</div>
+    <div class="steps">
+      <div class="step">
+        <div class="step-n" style="background:var(--green-bg);color:var(--green);">1</div>
+        <p>اجمع <strong>كل شروط F وشروط G</strong> في نظام واحد</p>
+      </div>
+      <div class="step">
+        <div class="step-n" style="background:var(--green-bg);color:var(--green);">2</div>
+        <p>طبّق طريقة Vect كالعادة</p>
+      </div>
+    </div>
+    <div class="key-rule">
+      🔑 كلما زادت الشروط ← <strong>dim أصغر</strong>
+    </div>
+  </div>
+
+  <div class="card accent-green">
+    <div class="card-label">📝 مثال — أوجد F ∩ G مع Base و dim</div>
+    <p><strong>F</strong> = {(x,y,z) ∈ ℝ³ : x + y = 0} &nbsp;&nbsp; <strong>G</strong> = {(x,y,z) ∈ ℝ³ : y − z = 0}</p>
+    <p><strong>الخطوة 1:</strong> نجمع الشروط:</p>
+    <div class="formula">x + y = 0  ←  x = −y<br>y − z = 0  ←  z = y</div>
+    <div class="steps">
+      <div class="step">
+        <div class="step-n" style="background:var(--green-bg);color:var(--green);">①</div>
+        <p>المتجه العام: (x,y,z) = (−y, y, y) = y(−1, 1, 1) ← المتغير الحر الوحيد هو y</p>
+      </div>
+      <div class="step">
+        <div class="step-n" style="background:var(--green-bg);color:var(--green);">✓</div>
+        <p><strong>F ∩ G = Vect{(−1,1,1)}</strong> &nbsp;|&nbsp; <strong>dim(F∩G) = 1</strong> &nbsp;|&nbsp; Base = {(−1,1,1)}</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- 8. Supplémentaire -->
+<div class="section" id="supp">
+  <div class="section-header">
+    <div class="sec-num" style="background:var(--orange-bg);color:var(--orange);">8</div>
+    <div class="sec-title">
+      <h2>Sous-espaces Supplémentaires</h2>
+      <div class="fr">الفضاءان المتمّمان</div>
+    </div>
+  </div>
+
+  <div class="card accent-orange">
+    <div class="card-label">التعريف</div>
+    <p>F و G متمّمان في E إذا تحقق <strong>شرطان معاً</strong>:</p>
+    <div class="formula">F + G = E  و  F ∩ G = {0}</div>
+    <p>ونكتب: <span class="mono">E = F ⊕ G</span></p>
+    <div class="tbl-wrap">
+      <table>
+        <tr><th>الشرط</th><th>المعنى</th></tr>
+        <tr><td class="mono">F + G = E</td><td>معاً يملآن كل الفضاء ✅</td></tr>
+        <tr><td class="mono">F ∩ G = {0}</td><td>لا يتشاركان إلا الصفر ✅</td></tr>
+      </table>
+    </div>
+    <div class="key-rule">
+      🔑 طريقة التحقق السريعة:<br>
+      <strong>E = F ⊕ G</strong> ⟺ <strong>dim(F) + dim(G) = dim(E)</strong>  و  <strong>F ∩ G = {0}</strong>
+    </div>
+  </div>
+
+  <div class="card accent-orange">
+    <div class="card-label">📝 مثال — هل F و G متمّمان في ℝ³؟</div>
+    <p><strong>F</strong> = {(x,y,z) : x+y = 0 و z = 0} &nbsp;&nbsp; <strong>G</strong> = {(x,y,z) : x = 0 و y = 0}</p>
+    <div class="steps">
+      <div class="step">
+        <div class="step-n" style="background:var(--orange-bg);color:var(--orange);">①</div>
+        <p><strong>dim(F):</strong> F = Vect{(1,−1,0)} ← dim(F) = 1</p>
+      </div>
+      <div class="step">
+        <div class="step-n" style="background:var(--orange-bg);color:var(--orange);">②</div>
+        <p><strong>dim(G):</strong> G = Vect{(0,0,1)} ← dim(G) = 1 &nbsp;|&nbsp; dim(F)+dim(G) = 2 ≠ 3 ← <strong style="color:var(--red)">ليسا متمّمين!</strong></p>
+      </div>
+    </div>
+    <p style="margin-top:12px">لو أخذنا بدلاً من ذلك: <strong>G' = Vect{(0,0,1),(1,0,0)}</strong> ← dim(G')=2</p>
+    <div class="formula">dim(F) + dim(G') = 1 + 2 = 3 = dim(ℝ³)  و  F ∩ G' = {0}</div>
+    <div class="steps">
+      <div class="step">
+        <div class="step-n" style="background:var(--green-bg);color:var(--green);">✓</div>
+        <p>الشرطان محققان ← <strong>ℝ³ = F ⊕ G'</strong> ← F و G' متمّمان!</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Quick Reference -->
+<div class="quick-ref">
+  <h3>⚡ ورقة الغش السريعة</h3>
+  <div class="qr-grid">
+    <div class="qr-item">
+      <div class="qi-q">Libre أم Liée؟</div>
+      <div class="qi-a">حل <span class="mono">λ₁v₁+···=0</span><br>← الصفر فقط = Libre ✓<br>← غير ذلك = Liée ✗</div>
+    </div>
+    <div class="qr-item">
+      <div class="qi-q">Génératrice؟</div>
+      <div class="qi-a">حل <span class="mono">λ₁v₁+···=(x,y,z)</span><br>← دائماً حل = نعم ✓<br>← تناقض = لا ✗</div>
+    </div>
+    <div class="qr-item">
+      <div class="qi-q">Base؟</div>
+      <div class="qi-a">Libre ✓ + Génératrice ✓<br>← نعم = Base 🏆</div>
+    </div>
+    <div class="qr-item">
+      <div class="qi-q">dim؟</div>
+      <div class="qi-a">عدد عناصر Base<br><span class="mono">dim(ℝₙ[X]) = n+1</span></div>
+    </div>
+    <div class="qr-item">
+      <div class="qi-q">Sous-espace؟</div>
+      <div class="qi-a">طريقة Vect:<br>اكتب F = Vect{...} ← تلقائياً ✓</div>
+    </div>
+    <div class="qr-item">
+      <div class="qi-q">Combinaison Lin.؟</div>
+      <div class="qi-a">حل <span class="mono">λ₁v₁+···=u</span><br>← وجد λᵢ = نعم ✓<br>← تناقض = لا ✗</div>
+    </div>
+    <div class="qr-item">
+      <div class="qi-q">Intersection F∩G؟</div>
+      <div class="qi-a">اجمع شروط F و G<br>← طبّق Vect</div>
+    </div>
+    <div class="qr-item">
+      <div class="qi-q">Supplémentaires؟</div>
+      <div class="qi-a"><span class="mono">F∩G={0}</span> و <span class="mono">dim(F)+dim(G)=dim(E)</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="footer">
+  <p>جامعة باتنة 2 · هندسة ميكانيك · جبر 2 · 2025–2026 · بالتوفيق! 🎓</p>
+</div>
+
+</div>
+</body>
+</html>
